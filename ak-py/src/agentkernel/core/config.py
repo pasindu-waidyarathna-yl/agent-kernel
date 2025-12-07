@@ -107,6 +107,14 @@ class _GmailConfig(BaseModel):
     label_filter: str = Field(default="INBOX", description="Gmail label to monitor (e.g., INBOX, UNREAD)")
 
 
+class _InstagramConfig(BaseModel):
+    agent: str = Field(default="", description="Default agent to use for Instagram interactions")
+    verify_token: str = Field(default="", description="Instagram webhook verify token")
+    access_token: str = Field(default="", description="Instagram access token")
+    app_secret: str = Field(default="", description="Instagram app secret for signature verification")
+    api_version: str = Field(default="v24.0", description="Instagram Graph API version")
+
+
 class _TraceConfig(BaseModel):
     enabled: bool = Field(default=False, description="Enable tracing")
     type: str = Field(default="langfuse", pattern="^(langfuse|openllmetry)$")
@@ -134,6 +142,9 @@ class AKConfig(YamlBaseSettingsModified):
         description="Telegram Bot related configurations", default_factory=_TelegramConfig
     )
     gmail: _GmailConfig = Field(description="Gmail related configurations", default_factory=_GmailConfig)
+    instagram: _InstagramConfig = Field(
+        description="Instagram related configurations", default_factory=_InstagramConfig
+    )
 
     trace: _TraceConfig = Field(description="Tracing related configurations", default_factory=_TraceConfig)
     library_version: str = Field(default=_get_ak_version(), description="Library version")
